@@ -3,7 +3,7 @@ The first Demonlist bot on Telegram (which uses the Demonlist.org API) was creat
 
 ## **Version 1.5**
 
-_You can now view the future list in Demonlist bot_
+_You can now view the future list in Demonlist bot!_
 
 ### **What new:**
 
