@@ -1,14 +1,11 @@
 # TG-DemonList
-The first in telegram Demonlist from Geometry Dash, by using Demonlist.org API
-
-You can see Current Demonlist and reasearch demon what you need!
-
+The first Demonlist bot on Telegram (which uses the Demonlist.org API) was created to eliminate the need to constantly open a browser to view Demonlist, with this bot, Geometry Dash players could more easily search and view Demonlist!
 
 ## **Version 1.0**
 
-_The first version of TG Demonlist, it's beta version, but works good!_
+_The first version of TG Demonlist can be considered a beta version!_
 
 ### **What new:**
 
-- Current Demonlist
-- Research by name/position
+- Added Classic Demonlist
+- Added Research by name/position
