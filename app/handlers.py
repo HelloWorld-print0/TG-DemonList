@@ -2,7 +2,8 @@ from aiogram import Router, F
 from aiogram.filters import Command, CommandObject
 from aiogram.types import Message, CallbackQuery
 
-from app.database import demonlist, demonlist_button, demon_name_research, top_research
+from app.database import classic_list, classic_list_button, cslist_name_research, top_posit_research
+from app.database import future_list, future_list_button, ftlist_name_research
 
 router = Router()
 
@@ -25,46 +26,61 @@ async def cmd_start(message: Message):
 async def cmd_help(message: Message):
     await message.answer(
         "<b>⚙ List of Commands:</b>\n\n"
-        "/list - <b>show a demonlist</b>\n"
-        "/demon (name) - <b>show a more information about demon</b>\n"
-        "/top (number) - <b>show a more information about demon at this position</b>"
+        
+        "• /lists - <b>See all lists</b>\n"
+        ""
     )
 
+# -------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------
 
-
-@router.message(Command("list"))
+@router.message(Command("lists"))
 async def cmd_list(message: Message):
     await message.answer(
-        text=demonlist(0),
-        reply_markup=demonlist_button(0)
+        "<b>📃 Select list what you want:</b>\n\n"
+        
+        "🏆 /classiclist - <b>See current level list!</b>\n"
+        "🔮 /futurelist - <b>See upcoming levels list!</b> (are sorted alphabetically, not by their difficulty)"
     )
 
-@router.callback_query(F.data.startswith("list_"))
-async def list_pages(callback: CallbackQuery):
+# -------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------
+
+# CLASSIC LIST
+@router.message(Command("classiclist"))
+async def cmd_cslist(message: Message):
+    await message.answer(
+        text=classic_list(0),
+        reply_markup=classic_list_button(0)
+    )
+
+# CLASSIC LIST BUTTON
+@router.callback_query(F.data.startswith("classiclist_"))
+async def cslist_pages(callback: CallbackQuery):
     page = int(callback.data.split("_")[1])
 
     await callback.message.edit_text(
-        text=demonlist(page),
-        reply_markup=demonlist_button(page)
+        text=classic_list(page),
+        reply_markup=classic_list_button(page)
     )
 
     await callback.answer()
 
 
+# CLASSIC LIST RESEARCH BY NAME
+@router.message(Command("csdemon"))
+async def cmd_csdemon(message: Message, command: CommandObject):
+    csdemon_name = command.args
 
-@router.message(Command("demon"))
-async def cmd_demon(message: Message, command: CommandObject):
-    demon_name = command.args
-
-    if not demon_name:
-        await message.answer("Use: /demon level name\n"
+    if not csdemon_name:
+        await message.answer("Use: /csdemon level name\n"
                              "/help")
         return
 
     await message.answer(
-        demon_name_research(demon_name))
+        cslist_name_research(csdemon_name))
 
-
+# CLASSIC LIST RESEARCH BY POSITION
 @router.message(Command("top"))
 async def cmd_top(message: Message, command: CommandObject):
     if not command.args:
@@ -78,4 +94,41 @@ async def cmd_top(message: Message, command: CommandObject):
         await message.answer("🔢 Not a <b>number!</b>")
         return
 
-    await message.answer(top_research(demon_id))
+    await message.answer(top_posit_research(demon_id))
+
+# -------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------
+
+# FUTURE LIST
+@router.message(Command("futurelist"))
+async def cmd_ftlist(message: Message):
+    await message.answer(
+        text=future_list(0),
+        reply_markup=future_list_button(0)
+    )
+
+# CLASSIC LIST BUTTON
+@router.callback_query(F.data.startswith("futurelist_"))
+async def ftlist_pages(callback: CallbackQuery):
+    page = int(callback.data.split("_")[1])
+
+    await callback.message.edit_text(
+        text=future_list(page),
+        reply_markup=future_list_button(page)
+    )
+
+    await callback.answer()
+
+
+# FUTURE LIST RESEARCH BY NAME
+@router.message(Command("ftdemon"))
+async def cmd_ftdemon(message: Message, command: CommandObject):
+    ftdemon_name = command.args
+
+    if not ftdemon_name:
+        await message.answer("Use: /ftdemon level name\n"
+                             "/help")
+        return
+
+    await message.answer(
+        ftlist_name_research(ftdemon_name))
